@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Advice generator app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap');
+  body{
+    height:100vh;
+    width:100vw;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    flex-direction:column;
+    margin:0;
+    padding:0;
+    background:hsl(218, 23%, 16%)
+  }
+
+  .card{
+    height:300px;
+    width:85%;
+    border-radius:15px;
+    background:hsl(217, 19%, 24%);
+    max-width:450px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: space-evenly;
+    padding:1em;
+    font-family: 'Manrope', sans-serif;
+    position:relative;
+
+  }
+
+  .quote{
+    color:hsl(193, 38%, 86%);
+    text-align:center;
+  }
+
+  .quote-header{
+    color:hsl(150, 100%, 66%);
+    text-transform:uppercase;
+  }
+
+  .dice-div{
+    background:hsl(150, 100%, 66%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:.5em;
+    border-radius:50%;
+    /* transform:translateY(150%); */
+    cursor:pointer;
+    transition:1s ease;
+    position:absolute;
+    bottom:-5%;
+    margin:0 auto;
+  }
+
+  .dice-div:hover{
+    transform:scale(99%);
+    opacity:75%;
+  }
+
+  .dice{
+    transform:scale(75%)
+  }
+
+  .divider{
+    color:red;
+    position:relative;
+    top:0px;
+    z-index:1;
+  }
+
+
+
+</style>
+</head>
+<body>
+  <div></div>
+  <div class="card">
+ <p class="quote-header"> Advice #<span class="quote-number"></span></p>
+  <h3 class="quote">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates ut eveniet odio ea magnam repellat, fuga at neque, rem earum deserunt voluptatem, repudiandae aspernatur quidem.</h3>
+  <img class='divider' data-divider src="./images/pattern-divider-mobile.svg" alt="svg-img">
+  <div class="dice-div">
+    <img class="dice" src="./images/icon-dice.svg" alt="img">
+  </div>
+</div>
+  
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Justin Green</a>.
+  </div>
+
+
+  <script>
+
+  //  window.onresize=(e)=>{
+    
+
+  //    if(e.target.window.innerWidth < 400){
+  //      console.log("switch to mobile svg")
+  //    }
+  //    else{
+  //      console.log("desktop svg")
+  //    }
+  //  }
+
+
+   window.onresize=(e)=>{
+    
+
+    if(e.target.window.innerWidth < 650){
+      document.querySelector(".divider").setAttribute("src","./images/pattern-divider-mobile.svg")
+    }
+    else{
+      document.querySelector(".divider").setAttribute("src","./images/pattern-divider-desktop.svg")
+    }
+  }
+
+
+function fetchQuote(){
+  fetch(`https://api.adviceslip.com/advice`)
+  .then(res=>res.json())
+  .then(res=>{
+    console.log(res)
+    document.querySelector(".quote-number").innerHTML = res.slip.id
+    document.querySelector(".quote").innerHTML = `"${res.slip.advice}"`
+  })
+}
+
+fetchQuote()
+
+  document.querySelector(".dice-div").onclick=fetchQuote
+  </script>
+</body>
+</html>
